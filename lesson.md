@@ -12,8 +12,9 @@ Write about how instructors can brief the students at the start of the lesson. I
 
 ## Part 1 - Insert Summary
 
-Insert Instructions
-
+- Routes
+- Router
+- Outlet
 ---
 
 ## Part 2 - Insert Summary
