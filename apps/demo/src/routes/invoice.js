@@ -1,5 +1,5 @@
 import { useParams, useNavigate, useLocation } from "react-router-dom";
-import { getInvoice, deleteInvoice } from "../data/data.js";
+import { getInvoice, deleteInvoice } from "../data";
 
 export default function Invoice() {
   const params = useParams();

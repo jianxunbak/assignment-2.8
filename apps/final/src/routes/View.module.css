@@ -1,0 +1,20 @@
+.container {
+  display: flex;
+  justify-content: left;
+}
+
+.sideBar {
+  display: flex;
+  flex-flow: column;
+  width: 150px;
+}
+
+.link {
+  display: block;
+  margin: 1rem 0;
+}
+.linkActive {
+  display: block;
+  margin: 1rem 0;
+  color: red;
+}
