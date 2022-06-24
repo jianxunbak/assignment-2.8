@@ -35,9 +35,9 @@ function App() {
                 <Route path='add' element={<AddProduct />} />
                 <Route path='view' element={<View />}>
                   <Route index element={<IndexPage />} />
-                  <Route path=':productid' element={<ViewForm />} />
+                  <Route path=':productId' element={<ViewForm />} />
                 </Route>
-                <Route path='*' element={BlankPage} />
+                <Route path='*' element={<BlankPage />} />
               </Route>
             </Routes>
           </BrowserRouter>

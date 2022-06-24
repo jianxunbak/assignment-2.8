@@ -12,11 +12,16 @@ function AddProduct() {
   const listCtx = useContext(ListContext);
 
   /*
-    CREATE: Add a new product into the list
+    CREATE: Add a new product into the list.
+    Note:
+      For the purpose of this demo, the UUID has been truncated to shorten 
+      the URL parameters that will be generated. In real-world situations, 
+      the full 32 characters of the UUID shall be used to ensure uniqueness.
   */
+ 
   const handlerAddProduct = () => {
     const newItem = {
-      id: uuid(),
+      id: uuid().substring(0,8), // Truncates the UUID to 8 chars. See Note above.
       name: ctx.name,
       quantity: ctx.count,
       price: ctx.price,
