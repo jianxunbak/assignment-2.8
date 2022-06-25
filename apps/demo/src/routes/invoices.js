@@ -4,6 +4,7 @@ import CustomLink from './CustomLink';
 
 function Invoices() {
   const invoices = getInvoices();
+  console.log(invoices);
   const [searchParams, setSearchParams] = useSearchParams();
   
   return (

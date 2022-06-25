@@ -1,6 +1,7 @@
 import styles from './View.module.css';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import { getProductList } from '../data';
+import { useEffect, useState } from 'react';
 
 function View() {
   let list = getProductList();
@@ -10,8 +11,10 @@ function View() {
         <h2>View</h2>
         <nav className={styles.nav}>
           {list.map((item) => (
-            <NavLink 
-              className={ styles.link }
+            <NavLink
+              className={({ isActive }) =>
+                isActive ? styles.linkActive : styles.link
+              }
               to={`/view/${item.id}`}
               key={item.id}
             >
@@ -20,6 +23,7 @@ function View() {
           ))}
         </nav>
       </div>
+      <Outlet />
     </div>
   );
 }

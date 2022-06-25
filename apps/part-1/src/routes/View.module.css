@@ -5,7 +5,7 @@
 .sideBar {
   display: flex;
   flex-flow: column;
-  width: 200px;
+  width: 300px;
 }
 .link {
   display: block;

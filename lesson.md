@@ -45,7 +45,7 @@ export default App;
 
 ### Step 2: Add Header Links
 
-Create a new component file called `routes/header.js` to include some links:
+Create a new route component file called `routes/header.js` to include some links:
 
 ```js
 // Header.js
@@ -88,7 +88,7 @@ Let's connect the links to some router functionality!
 
 ### Step 3: Add Routes
 
-Create two new components in the `routes` directory:
+Create two new route components in the `routes` directory:
 
 ```js
 // View.js
@@ -159,6 +159,11 @@ need to use *nested routes*:
         </Routes>
       </BrowserRouter>
 ```
+In the code above, the root path `/` renders only the `Header` component. When 
+you click on the *View* link, the path matches `/` + `view`, so both `Header` 
+and `View` are rendered consecutively. Similar behaviour when the *Add* link
+is clicked.
+
 
 Now, the `Header` component has two children, `View` and `Add`. In order to 
 conditionality render either child according to the selected route, we need
@@ -177,6 +182,33 @@ import { Link, Outlet } from 'react-route-dom';
 
 Click on the links to navigate to the desired URL and see the title change
 bottom of the page, with a persistant header layout.
+
+### Step 5: Adding a Default 'No Match' Route
+
+It is good practice to have a default page to show visitors when the router is 
+not able match a link to any existing page on the site. We can do this be adding
+a wildcard route path `*` that points to a default page element:
+
+```js
+// App.js
+...
+function App() {
+  const DefaultPage = () => <p>Nothing to see here!</p>;
+  return (
+    ...
+      <BrowserRouter>
+        <Routes>
+          ...        
+          <Route path='*' element={<DefaultPage />} />
+        </Routes>
+      </BrowserRouter>
+  );
+}
+```
+
+Test the default page by clicking on any of the item listed in the side bar 
+or entering an invalid URL endpoint, e.g. `localhost:3000/nothing`.
+
 
 ## Part 2: Side Bar Navigation
 
@@ -212,19 +244,21 @@ function View() {
 export default View;
 ```
 
+### Step 2: Styling Active NavLinks
+
 Convert each `<p>` element in the list into a `<NavLink>`, which is a special 
 type of link that knows whether or not it is *active*. This is useful for
 navigation menus where you would like to know which item is current selected.
 
-
 ```js
 // View.js
-
 import { NavLink } from 'react-router-dom';
     ...
       {list.map((item) => (
           <NavLink 
-            className={ styles.link }
+            className={({ isActive }) =>
+              isActive ? styles.linkActive : styles.link
+            }
             to={`/view/${item.id}`}
             key={item.id}
           >
@@ -233,53 +267,127 @@ import { NavLink } from 'react-router-dom';
         ))}
     ...  
 ```
+Note in the code above that the `className` attribute is assigned a function
+that conditionally returns a suitable styling class according to the `isActive` 
+value that is passed by `NavLink`. 
 
 The links are active, but the destination pages do not yet exist!
 
-### Step 3: Adding a Default 'No Match' Route
+### Step 3: Reading URL Params
 
-Before we go on to create the specific product detail page, let's add a
-a default page to show visitors when the router is not able match any
-link to an existing page.
+At the end of the previous step, we set up a list of links that routes to
+individual pages that show details an item on the list. Each item can be 
+identified by a unique item ID that can be extracted from the URL generated 
+by the router.
+
+Let's define a new route nested under the `view` endpoint to match URLs with 
+the item ID and connect to a new `Item` router component:
+
+```js
+// App.js
+...
+import Item from './routes/Item';
+function App() {
+  ...
+  return (
+        ...
+        <Routes>
+          <Route path='/' element={<Header />}>
+            <Route path='view' element={<View />} >
+              <Route path=':id' element={<Item />} />
+            </Route>
+            ...
+        </Routes>
+        ...
+  );
+}
+```
+
+Create the new `Item` component that will read the URL parameter with the 
+`useParam` hook:
+
+```js
+// Item.js
+import { useParams } from 'react-router-dom';
+function Item() {
+  let { id } = useParams();
+  return (
+    <div>
+      <h3>Product ID: {id}</h3>
+    </div>
+  )
+}
+export default Item;
+```
+
+In order for `Item` to show, we must add an `<Outlet>` to the parent layout:
+
+```js
+// View.js
+import { NavLink, Outlet } from 'react-router-dom';
+function View() {
+  ...
+    <div className={styles.container}>
+      <div className={styles.sideBar}>
+        ...
+      </div>
+      <Outlet />
+    </div>
+  );
+}
+```
+
+Let's spruce up `Item` to show more product details with some CSS styling:
+
+```js
+// Item.js
+import styles from './Item.module.css';
+import { getProduct } from '../data';
+
+function Item() {
+  let { id } = useParams();
+  let product = getProduct(id);
+  return (
+    <div className={styles.container}>
+      <h3>Product ID: {id}</h3>
+      <p>Name: {product.name}</p>
+      <p>Quantity: {product.quantity}</p>
+      <p>Price: {product.price}</p>
+      <p>Discount: {product.discount}</p>
+    </div>
+  )
+}
+```
+### Step 4: Adding Index Routes
+
+An index route points to a default page that is shown when a user has not clicked
+on any item on a navigation list. To its parent, it is the default child route
+that is selected when no other children can be matched. 
+
+The `<Route>` attribute `index` is used to designate an index route that is attached
+to the component page assigned to `element`.
 
 ```js
 // App.js
 ...
 function App() {
-  const DefaultPage = () => <p>Nothing to see here!</p>;
+  const ViewIndexPage = () => <p>Select a product...</p>
+  ...
   return (
     ...
-      <BrowserRouter>
-        <Routes>
-          ...        
-          <Route path='*' element={<DefaultPage />} />
-        </Routes>
-      </BrowserRouter>
-  );
+      <Route path='view' element={<View />} >
+        <Route index element={<ViewIndexPage />} />
+        <Route path=':id' element={<Item />} />
+      </Route>
+    ...
+  )
 }
 ```
 
-Test the default page by clicking on any of the item listed in the side bar 
-or entering an invalid URL endpoint, e.g. `localhost:3000/nothing`.
-
-### Step 4: Reading URL Params
-
-
-
-
-### Step 5: Adding Index Routes
-
-### Step 6: Adding Active Links
-
-### Part 3: Additional Features
-
-## Adding Search Params
-- useSearchParams
-
-## Creating Custom Links
-- useLocation
-
-## Navigating Programmatically 
+## Part 3: Additional Features
+### Navigating Programmatically 
 - useParams, useNavigate, useLocation
 
-## Part 3 - Insert Summary
+### Adding Search Params
+- useSearchParams
+

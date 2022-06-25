@@ -49,4 +49,5 @@ export function deleteInvoice(number) {
   invoices = invoices.filter(
     (invoice) => invoice.number !== number
   );
+  console.log(number, invoices);
 }

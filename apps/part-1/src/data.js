@@ -70,7 +70,9 @@ let productList = [
     discount: 33,
   },
 ];
+
 export function getProductList() {
+  console.log(productList);
   return productList;
 }
 
@@ -79,5 +81,8 @@ export function getProduct(id) {
 }
 
 export function deleteProduct(id) {
-  productList = productList.filter((product) => product.id !== id);
+  productList = productList.filter(
+    (product) => product.id !== id
+  );
+  console.log(id, productList);
 }
