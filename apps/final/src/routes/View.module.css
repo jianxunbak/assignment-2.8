@@ -2,13 +2,11 @@
   display: flex;
   justify-content: left;
 }
-
 .sideBar {
   display: flex;
   flex-flow: column;
-  width: 150px;
+  width: 300px;
 }
-
 .link {
   display: block;
   margin: 1rem 0;
@@ -17,4 +15,8 @@
   display: block;
   margin: 1rem 0;
   color: red;
+}
+.nav {
+  background-color: #cae2f5;
+  padding: 0 1rem;
 }

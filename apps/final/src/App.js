@@ -1,50 +1,42 @@
 import './App.css';
+import { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import { dummyData } from './data';
 import Header from './routes/Header';
-import AddProduct from './routes/AddProduct';
 import View from './routes/View';
-import ViewForm from './routes/ViewForm';
-
-import { ProductProvider } from './context/ProductContext';
-import { ListProvider } from './context/ListContext'
+import Add from './routes/Add';
+import Item from './routes/Item';
+import ItemDefault from './routes/ItemDefault';
 
 function App() {
-  const BlankPage = () => {
-    return (
-      <main>
-        <p>Nothing to see here!</p>
-      </main>
-    )
-  }
-  const IndexPage = () => {
-    return (
-      <main>
-        <p>Select a Product</p>
-      </main> 
-    )
+  const [list, setList] = useState(dummyData);
+
+  const DefaultPage = () => <p>Nothing to see here!</p>;
+
+  const handlerDeleteProduct = (id) => {
+    const newList = list.filter(
+      (item) => item.id !== id
+    );
+    setList(newList);
   }
   
   return (
     <div className='App'>
-      <ListProvider>
-        <ProductProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route path='/' element={<Header />}>
-                <Route path='add' element={<AddProduct />} />
-                <Route path='view' element={<View />}>
-                  <Route index element={<IndexPage />} />
-                  <Route path=':productId' element={<ViewForm />} />
-                </Route>
-                <Route path='*' element={<BlankPage />} />
-              </Route>
-            </Routes>
-          </BrowserRouter>
-        </ProductProvider>
-      </ListProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path='/' element={<Header />}>
+            <Route path='view' element={<View list={list} />} >
+              <Route index element={<ItemDefault />} />
+              <Route path=':id' element={<Item list={list} handlerDelete={handlerDeleteProduct} />} />
+            </Route>
+            <Route path='add' element={<Add />} />
+          </Route>
+          <Route path='*' element={<DefaultPage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
 
 export default App;
+

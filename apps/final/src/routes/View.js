@@ -1,29 +1,24 @@
 import styles from './View.module.css';
+import { NavLink, Outlet } from 'react-router-dom';
+import { getProductList } from '../data';
+import { useEffect, useState } from 'react';
 
-import { useContext } from 'react';
-import { Outlet } from 'react-router-dom';
-
-import ListContext from '../context/ListContext';
-import CustomLink from './CustomLink';
-
-function View() {
-  const listCtx = useContext(ListContext);
-
+function View({ list }) {
   return (
     <div className={styles.container}>
       <div className={styles.sideBar}>
-        <h3>List</h3>
-        <nav>
-          {listCtx.list.map((item) => (
-            <CustomLink
+        <h2>View</h2>
+        <nav className={styles.nav}>
+          {list.map((item) => (
+            <NavLink
               className={({ isActive }) =>
                 isActive ? styles.linkActive : styles.link
               }
-              key={item.id}
               to={`/view/${item.id}`}
+              key={item.id}
             >
               {item.name}
-            </CustomLink>
+            </NavLink>
           ))}
         </nav>
       </div>
