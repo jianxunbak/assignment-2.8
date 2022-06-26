@@ -3,8 +3,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { getProductList } from '../data';
 import { useEffect, useState } from 'react';
 
-function View() {
-  let list = getProductList();
+function View({ list }) {
   return (
     <div className={styles.container}>
       <div className={styles.sideBar}>

@@ -1,10 +1,9 @@
-import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styles from './Item.module.css';
-import { getProduct, deleteProduct } from '../data';
 
-function Item() {
-  let { id } = useParams();
-  let product = getProduct(id);
+function Item({ list, handlerDelete }) {
+  const { id } = useParams();
+  const product = list.find((item) => item.id === id);
   const navigate = useNavigate();
   return (
     <div className={styles.container}>
@@ -15,7 +14,7 @@ function Item() {
       <p>Discount: {product.discount}</p>
       <button
         onClick={() => {
-          deleteProduct(id);
+          handlerDelete(id);
           navigate('/view');
         }}
       >

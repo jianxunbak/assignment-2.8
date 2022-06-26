@@ -1,4 +1,4 @@
-# 2.8: React Router
+# 2.8: React Router v6
 
 ### Preparation
 
@@ -10,9 +10,6 @@ npm i react-router-dom
 
 ### Lesson Overview
 
-TBC
-
-
 Routes from root `localhost:3000`
 
 | Route name | Description |
@@ -20,7 +17,6 @@ Routes from root `localhost:3000`
 | `/addproduct` | Show product entry page |
 | `/view` | Show index route of all products in list | 
 | `/view/:id` | Show details of product according to ID
-| `/view?name=???` | Filter product by name |
 
 ## Part 1: Top Navigation Menu
 
@@ -112,7 +108,6 @@ function Add() {
 export default Add
 
 ```
-
 Add them into the main app and configure them into the router:
 
 ```js
@@ -136,7 +131,6 @@ function App() {
   );
 }
 ```
-
 Test out the new paths by clicking on the links. However, you will need to click
 back button on your browser to get back to the *root* `/` URL path, which can be
 quite tedious! 
@@ -163,7 +157,6 @@ In the code above, the root path `/` renders only the `Header` component. When
 you click on the *View* link, the path matches `/` + `view`, so both `Header` 
 and `View` are rendered consecutively. Similar behaviour when the *Add* link
 is clicked.
-
 
 Now, the `Header` component has two children, `View` and `Add`. In order to 
 conditionality render either child according to the selected route, we need
@@ -209,23 +202,32 @@ function App() {
 Test the default page by clicking on any of the item listed in the side bar 
 or entering an invalid URL endpoint, e.g. `localhost:3000/nothing`.
 
-
 ## Part 2: Side Bar Navigation
 
 ### Step 1: Listing Products
 
 Let's create a sidebar where we can view the list products stored in our
 shopping cart. The starter code includes dummy data which can be found in
-`data.js`. Import the product list and display it on the `View` page,
-together with some appropriate CSS styling for the sidebar navigation.
+`data.js`. Import the product list into the `App.js` and pass it to `View` 
+as a prop. 
 
 ```js
+// App.js
+import { useState } from 'react';
+import { dummyData } from './data';
+...
+function App() {
+  const [list, setList] = useState(dummyData);
+  return(
+    ...
+    <Route path='view' element={<View list={list} />} />
+    ...
+  )
+}
+
 // View.js
 import styles from './View.module.css';
-import { getProductList } from '../data';
-
-function View() {
-  let list = getProductList();
+function View({ list }) {
   return (
     <div className={styles.container}>
       <div className={styles.sideBar}>
@@ -253,19 +255,19 @@ navigation menus where you would like to know which item is current selected.
 ```js
 // View.js
 import { NavLink } from 'react-router-dom';
-    ...
-      {list.map((item) => (
-          <NavLink 
-            className={({ isActive }) =>
-              isActive ? styles.linkActive : styles.link
-            }
-            to={`/view/${item.id}`}
-            key={item.id}
-          >
-            {item.name}
-          </NavLink>
-        ))}
-    ...  
+...
+  {list.map((item) => (
+      <NavLink 
+        className={({ isActive }) =>
+          isActive ? styles.linkActive : styles.link
+        }
+        to={`/view/${item.id}`}
+        key={item.id}
+      >
+        {item.name}
+      </NavLink>
+    ))}
+...  
 ```
 Note in the code above that the `className` attribute is assigned a function
 that conditionally returns a suitable styling class according to the `isActive` 
@@ -290,27 +292,26 @@ import Item from './routes/Item';
 function App() {
   ...
   return (
+    ...
+    <Routes>
+      <Route path='/' element={<Header />}>
+        <Route path='view' element={<View list={list} />} >
+          <Route path=':id' element={<Item list={list} />} />
+        </Route>
         ...
-        <Routes>
-          <Route path='/' element={<Header />}>
-            <Route path='view' element={<View />} >
-              <Route path=':id' element={<Item />} />
-            </Route>
-            ...
-        </Routes>
-        ...
+    </Routes>
+    ...
   );
 }
 ```
-
 Create the new `Item` component that will read the URL parameter with the 
 `useParam` hook:
 
 ```js
 // Item.js
 import { useParams } from 'react-router-dom';
-function Item() {
-  let { id } = useParams();
+function Item({ list }) {
+  const { id } = useParams();
   return (
     <div>
       <h3>Product ID: {id}</h3>
@@ -319,13 +320,12 @@ function Item() {
 }
 export default Item;
 ```
-
 In order for `Item` to show, we must add an `<Outlet>` to the parent layout:
 
 ```js
 // View.js
 import { NavLink, Outlet } from 'react-router-dom';
-function View() {
+function View({ list }) {
   ...
     <div className={styles.container}>
       <div className={styles.sideBar}>
@@ -336,17 +336,18 @@ function View() {
   );
 }
 ```
-
-Let's spruce up `Item` to show more product details with some CSS styling:
+We can now use the ID value from `useParams` to to look up the selected item 
+matched to the product ID. Let's spruce up `Item` to show more product details 
+with some CSS styling:
 
 ```js
 // Item.js
 import styles from './Item.module.css';
 import { getProduct } from '../data';
 
-function Item() {
-  let { id } = useParams();
-  let product = getProduct(id);
+function Item({ list }) {
+  const { id } = useParams();
+  const product = list.find((item) => item.id === id);
   return (
     <div className={styles.container}>
       <h3>Product ID: {id}</h3>
@@ -367,27 +368,131 @@ that is selected when no other children can be matched.
 The `<Route>` attribute `index` is used to designate an index route that is attached
 to the component page assigned to `element`.
 
+Create a new `ItemDefault` component in the `route` folder to display a blank page and 
+assign it to the `element` attribute of a index path.
+
 ```js
+// ItemDefault.js
+import styles from './ItemDefault.module.css';
+
+function ItemDefault() {
+  return (
+    <div className={styles.container}>
+      <p>Please select a product</p>
+    </div>
+  )
+}
+export default ItemDefault
+
 // App.js
 ...
+import ItemDefault from './routes/ItemDefault';
 function App() {
-  const ViewIndexPage = () => <p>Select a product...</p>
-  ...
   return (
     ...
-      <Route path='view' element={<View />} >
-        <Route index element={<ViewIndexPage />} />
-        <Route path=':id' element={<Item />} />
+      <Route path='view' element={<View list={list} />} >
+        <Route index element={<ItemDefault />} />
+        <Route path=':id' element={<Item list={list} />} />
       </Route>
     ...
   )
 }
 ```
+### Step 5: Navigating Programmatically 
 
-## Part 3: Additional Features
-### Navigating Programmatically 
-- useParams, useNavigate, useLocation
+A common use case for routers is to automatically send the visitor to another page 
+after completing a task. For example, when the visitor clicks on a *Delete* button
+while viewing a product page, the current page would not exist anymore after the 
+product item has been removed.
 
-### Adding Search Params
-- useSearchParams
+Let's implement a *Delete* button on the `Item` component to allow visitors to remove 
+items from the product list:
 
+```js
+// App
+...
+function App() {
+  ...  
+  const handlerDeleteProduct = (id) => {
+    const newList = list.filter(
+      (item) => item.id !== id
+    );
+    setList(newList);
+  }
+  ...
+  return (
+    ...
+      <Route path=':id' element={<Item list={list} handlerDelete={handlerDeleteProduct} />} />
+    ...
+  )
+}
+
+// Item.js
+...
+function Item({ list, handlerDelete }) {
+  ...
+  const product = list.find((item) => item.id === id);
+  return (
+    <p>Discount: {product.discount}</p>
+      <button
+        onClick={() => {
+          handlerDelete(id);
+        }}
+      >
+        Delete
+      </button>
+    ...
+  )
+}
+
+```
+
+Observe and explain what happens when you click the *Delete* button.
+
+The `useNavigate` hook can be be used to change the current URL
+on your browser and switch to the referenced page, i.e. *programmatic
+navigation*. This is exactly what we need to do after deleting our 
+product item page.
+
+```js
+// Item.js
+...
+import { useParams, useNavigate } from 'react-router-dom';
+const navigate = useNavigate();
+...
+  <button
+    onClick={() => {
+      handlerDelete(id);
+      navigate('/view');
+    }}
+  >
+```
+## Assignment
+
+### Implement the Add Product Page
+
+Expand on the `Add` component route to allow the user to create a new
+product. 
+
+1. Create an input form to enter product details
+    - Name
+    - Quantity
+    - Price
+    - Discount
+2. Create a handler function to add a new product item into the state list, 
+   e.g. `handlerAddProduct()`
+3. Create an *Add* button that shall call the add product handler
+4. After adding a new product, automatically switch to the `View` page to show
+   the new product added to the list.
+
+### Implement an Edit Product Page (advanced)
+
+Create a new `Edit` component route to allow the user to edit a current product.
+
+1. Create an *Edit* button on the `Item` page that shall call the edit handler.
+2. Create an edit handler function to fill in product details into an `Edit` form, 
+   e.g. `handlerEditProduct()`
+4. Create an *Submit* button on the `Edit` form that shall call the submit handler
+2. Create a form submit handler function update the current item record in the state
+   list, e.g. `handlerEditProduct()`
+4. After submission, automatically return to the `View` page.

@@ -1,4 +1,4 @@
-let productList = [
+export const dummyData = [
   {
     id: '48587279',
     name: 'Beef Soup Base',
@@ -70,19 +70,3 @@ let productList = [
     discount: 33,
   },
 ];
-
-export function getProductList() {
-  console.log(productList);
-  return productList;
-}
-
-export function getProduct(id) {
-  return productList.find((product) => product.id === id);
-}
-
-export function deleteProduct(id) {
-  productList = productList.filter(
-    (product) => product.id !== id
-  );
-  console.log(id, productList);
-}

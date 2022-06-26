@@ -1,4 +1,4 @@
-# Insert Lesson Title
+# 2.8: React Router v6
 
 ## Dependencies
 
@@ -10,28 +10,33 @@ Refer to the following markdown file for the respective sections of the class:
 ## Lesson Objectives
 
 Learners will understand:
-- Insert the knowledge to be acquired
+- React client-side routing (CSR)
+- Basic routing paths
+- Nested routing
+- Programmatic routing
 
 Learners will be able to:
-- Insert the skillset to be acquired
-
+- Set up a `BrowserRouter` component
+- Create routes
+- Create nested routes
+- Create default routes
+- Style active links
+- Read URL params with `useParams`
+- Create index routes in child components
+- Navigate programatically with `useNavigation`
 
 ## Lesson Plan
 
 |Duration|What|How or Why|
 |--------|-----|-------|
-|- 5mins |Start zoom session|So that students can join early and start class on time|
-|10 mins|Self studies check-in|Prepare 3 questions for students to answer as a form of warm up and engaging students with the lesson topic.|
-|30 mins|Conceptual Knowledge| Instructors brief students on the subject matter conceptually before diving into hands on. This section can be shorter but not longer. Use video clips for explanation if necessary.|
-|20 mins|Code Along| Practical hands on|
-||**1 HR MARK**|
-|5 mins|Break|Break|
-|40 mins|Code Along| Practical hands on|
-|5 mins|Buffer|In case of overrun|
-|5 mins|Break||
-|5 mins|Assignment Briefing|Help students to understand the expectation and direction of the assignment to prevent mis-interpretations.|
-||**2 HR MARK**|
-|50 mins|Learners self attempt on assignments|
-|10 mins|Instructors assist learners to push changes to remote repository.|
-||**END CLASS 3 HR MARK**|
+|- 5mins | Start zoom session | So that students can join early and start class on time |
+| 10 mins | Self studies check-in | |
+| 60 mins |Concept + practical code-along | Part 1: Top Navigation Menu. Learners will set up a basic routing configuration with persistent layout, nested routes and default 'no match' route |
+| 15 mins | Discussion | Q & A |
+||**1.5 HR MARK**|
+| 15 mins | Break | |
+| 60 mins | Concept + practical code-along | Part 2: Side Bar Navigation. Import some data and list the items on a sidebar. Apply styling to active links, read URL parameters to extract item ID, add index routes and apply programmatic navigation. |
+| 15 mins | Discussion | Q & A |
+| |**END CLASS 3 HR MARK**|
+
 
