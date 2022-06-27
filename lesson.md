@@ -164,7 +164,7 @@ to import `<Outlet>` into the parent:
 
 ```js
 // Header.js
-import { Link, Outlet } from 'react-route-dom';
+import { Link, Outlet } from 'react-router-dom';
   ...
     <nav>
       ...
