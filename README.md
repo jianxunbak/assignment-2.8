@@ -31,11 +31,14 @@ Learners will be able to:
 |--------|-----|-------|
 |- 5mins | Start zoom session | So that students can join early and start class on time |
 | 10 mins | Self studies check-in | |
-| 60 mins |Concept + practical code-along | Part 1: Top Navigation Menu. Learners will set up a basic routing configuration with persistent layout, nested routes and default 'no match' route |
-| 15 mins | Discussion | Q & A |
-||**1.5 HR MARK**|
+| 40 mins |Concept + practical code-along | Part 1: Top Navigation Menu. Learners will set up a basic routing configuration with persistent layout, nested routes and default 'no match' route |
+| 5 mins | Discussion | Q & A |
+||**1 HR MARK**|
 | 15 mins | Break | |
-| 60 mins | Concept + practical code-along | Part 2: Side Bar Navigation. Import some data and list the items on a sidebar. Apply styling to active links, read URL parameters to extract item ID, add index routes and apply programmatic navigation. |
+| 40 mins | Concept + practical code-along | Part 2: Side Bar Navigation. Import some data and list the items on a sidebar. Apply styling to active links, read URL parameters to extract item ID, add index routes and apply programmatic navigation. |
+| 5 mins | Discussion | Q & A |
+||**2 HR MARK**|
+| 45 mins | Assignment | Implement 'Add Product' page. Optional challenge: Implement 'Edit Product' page. |
 | 15 mins | Discussion | Q & A |
 | |**END CLASS 3 HR MARK**|
 
