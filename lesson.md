@@ -1,4 +1,4 @@
-# 2.8: React Router v6
+# 2.8 React Router v6
 
 ### Preparation
 
