@@ -10,16 +10,14 @@ Refer to the following markdown file for the respective sections of the class:
 ## Lesson Objectives
 
 Learners will understand:
-- React client-side routing (CSR)
-- Basic routing paths
-- Nested routing
-- Programmatic routing
+- How React client-side routing (CSR) works
+- How Basic routing paths work
+- What Nested and Programmatic routing are and what are their differences
 
 Learners will be able to:
 - Set up a `BrowserRouter` component
-- Create routes
-- Create nested routes
-- Create default routes
+- Create different kinds of routes
+- Create nested and default routes
 - Style active links
 - Read URL params with `useParams`
 - Create index routes in child components
