@@ -2,7 +2,7 @@
 
 ### Preparation
 
-Clone and fork the starter code from `apps/begin`. Import the `react-router-dom` package:
+Clone and fork the starter code from `code/begin`. Import the `react-router-dom` package:
 
 ```
 npm i react-router-dom
