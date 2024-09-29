@@ -1,0 +1,82 @@
+React Router
+
+Routing - display components based on a URL Router
+www.mysite.com/products
+www.mysite.com/about-us
+
+Client Side Routing
+
+
+ request /about-us
+Browser -----> Server
+
+        HTML page
+Browser <----- Server
+
+Web 1.0
+- User browse a web page using a unique URL
+- Web server responds with HTML file, which is rendered in Browser
+- If user clicks on another link, server sends back another HTML file
+
+Problem: experience is rough, also cannot load data dynamically.
+
+AJAX (Async JavaScript and XML) was created to solve this problem.
+
+With AJAX, JavaScript dynamically load data into the page without having to load a new HTML file.
+
+This paved the way for dynamic web interfaces - frameworks and libraries like React started to evolve.
+
+Web 2.0
+- JS dynamically load data without having to load a new HTML page
+
+In React, browser only loads the first html page + CSS + JavaScript.   JavaScript takes over to dynamically load data and update browser using DOM API.
+
+Single Page Application (SPA)
+
+/products
+/about-us
+
+In client side routing, JavaScript "hijacks" the browser's routing process and controls that ability to load pages corresponding to a URL.
+
+
+Persistent Layout
+[     Menu  Bar              ]
+
+   MAIN CONTENT
+   products, about us
+
+
+
+Persistent Layout - Header.js
+
+[ Menu .....  ]
+
+<Outlet />
+
+
+When you hit /view route, <View /> will be rendered inside <Outlet />
+When you hit /add route, <Add /> will be rendered inside <Outlet />
+
+
+Activity
+
+Task 1:
+Create a AboutUs page
+Add the route /about-us that loads this component
+Add menu item that links to it.
+
+Task 2 (try if you can)
+Inside the AboutUs page, provide another submenu with 3 links
+- Contact Us
+- Career
+- Investors
+
+And when clicked, the content/component should display below this submenu.
+
+
+Path - Absolute vs Relative
+
+Absolute path starts with a /
+means how they're seen from after the domain name
+
+Relative path - no /

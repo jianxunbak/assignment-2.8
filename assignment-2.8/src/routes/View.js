@@ -1,9 +1,7 @@
-import styles from './View.module.css';
-import { NavLink, Outlet } from 'react-router-dom';
-import { getProductList } from '../data';
-import { useEffect, useState } from 'react';
+import { NavLink, Outlet } from "react-router-dom";
+import styles from "./View.module.css";
 
-function View({ list }) {
+function View({ list = [] }) {
   return (
     <div className={styles.container}>
       <div className={styles.sideBar}>
@@ -11,11 +9,11 @@ function View({ list }) {
         <nav className={styles.nav}>
           {list.map((item) => (
             <NavLink
+              key={item.id}
+              to={`/view/${item.id}`}
               className={({ isActive }) =>
                 isActive ? styles.linkActive : styles.link
               }
-              to={`/view/${item.id}`}
-              key={item.id}
             >
               {item.name}
             </NavLink>
