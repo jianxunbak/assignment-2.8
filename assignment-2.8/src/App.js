@@ -29,21 +29,11 @@ function App() {
     });
   };
 
-  const handlerEditProduct = (id) => {
-    setList((prevList) => {
-      const updatedList = list.filter((item) => item.id !== id);
-      return updatedList;
-    });
-  };
   // ---------- JSX ---------- //
   return (
     <>
       <h1>hello</h1>
       <BrowserRouter>
-        {/*everything that will be a link should be wrap inside a BrowserRouter*/}
-        {/* ReactRouter only manages things inside the BrowerRouter */}
-        {/* Routes defination */}
-        {/* all things inside the element needs to be a component with a <xxx/> */}
         <Routes>
           {/* Parent Route */}
           <Route path="/" element={<Header />}>
@@ -57,7 +47,6 @@ function App() {
                   <Item
                     list={list}
                     handlerDeleteProduct={handlerDeleteProduct}
-                    handlerEditProduct={handlerEditProduct}
                   />
                 }
               />

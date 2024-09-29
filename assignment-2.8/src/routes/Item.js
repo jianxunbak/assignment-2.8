@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom";
 import styles from "./Item.module.css";
-const Item = ({ list = [], handlerDeleteProduct, handlerEditProduct }) => {
+const Item = ({ list = [], handlerDeleteProduct }) => {
   const { id } = useParams();
   const product = list.find((item) => item.id === id);
   const navigate = useNavigate();
@@ -22,6 +22,7 @@ const Item = ({ list = [], handlerDeleteProduct, handlerEditProduct }) => {
         {" "}
         delete
       </button>
+      {/* reusing the /add path to edit by passing in the product*/}
       <button
         onClick={() => {
           navigate("/Add", { state: { product } });
